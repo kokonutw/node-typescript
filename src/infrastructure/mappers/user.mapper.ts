@@ -9,4 +9,12 @@ export class UserMapper{
 
         return new UserEntity(_id || id,firstname,lastname,email,password,role,img)
     }
+
+        static userEntityToResponse(object: { [key:string]: any}){
+        
+        const { id,_id,firstname,lastname,email,password,role,img,createdAt,updatedAt} = object;
+
+
+        return new UserEntity(_id || id,firstname,lastname,email,password,role,img,createdAt,updatedAt)
+    }
 }

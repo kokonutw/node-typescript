@@ -1,26 +1,18 @@
+import { AuthToken } from "../../../application/auth/auth.interface";
 import { JwtAdaptar } from "../../../config/jwt-adapter";
+import { PayloadToken } from "../../dto/auth/payload-token";
 import { RegisterUserDto } from "../../dto/auth/register-user.dto";
 import { CustomError } from "../../errors/custom.error";
 import { AuthRepository } from "../../repositories/auth.repository";
 
 
-interface UserToken{
-    accessToken: string,
-    user: {
-        id: string,
-        firstname: string,
-        lastname: string,
-        email: string,
-        profile: string,
-        role: string[]
-    }
-}
+
 
 interface RegisterUserUseCase{
-    execute(registerUserDto: RegisterUserDto): Promise<UserToken>
+    execute(registerUserDto: RegisterUserDto): Promise<AuthToken>
 }
 
-type SignToken = (payload: Object, duration?: string)=> Promise<string | null>
+type SignToken = (payload: PayloadToken, duration?: string)=> Promise<string | null>
 
 
 export class RegisterUser implements RegisterUserUseCase{
@@ -31,10 +23,11 @@ export class RegisterUser implements RegisterUserUseCase{
 
 
 
-    async execute(registerUserDto: RegisterUserDto): Promise<UserToken> {
+    async execute(registerUserDto: RegisterUserDto): Promise<AuthToken> {
+        
         const user = await this.authRepository.register(registerUserDto);
 
-        const token = await this.signToken({id: user.id})
+        const token = await this.signToken({role: user.role,sub: user.id})
         
         if(!token) throw CustomError.internalServer('Error generating token')
         

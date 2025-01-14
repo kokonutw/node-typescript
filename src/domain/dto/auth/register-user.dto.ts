@@ -11,7 +11,7 @@ export class RegisterUserDto {
   email: string;
 
   @IsNotEmpty({ message: "Password is required" })
-  @MinLength(6, { message: "Password too short, minimum length is 6" })
+  @MinLength(7, { message: "Password too short, minimum length is 6" })
   password: string;
 
   constructor(

@@ -5,7 +5,15 @@ export class UserEntity{
         public lastname: string,
         public email: string,
         public password: string,
-        public role: string[],
-        public img?: string
+        public role: RoleType[],
+        public img?: string,
+        public createdAt?: Date,
+        public updatedAt?: Date
     ){}
+}
+
+export enum RoleType {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  CUSTOMER= 'CUSTOMER'
 }

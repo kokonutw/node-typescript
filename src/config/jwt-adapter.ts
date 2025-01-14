@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken'
 import { envs } from './envs'
+import { PayloadToken } from '../domain/dto/auth/payload-token'
 
 export class JwtAdaptar{
 
-    static  generateToken(payload: Object, duration: string = '2h') : Promise<string|null>{
+    static  generateToken(payload: PayloadToken, duration: string = '2h') : Promise<string|null>{
         return new Promise((resolve) => {
             jwt.sign(payload, envs.SECRET_KEY, {expiresIn: duration}, (err, token) => {
                 if(err) resolve(null)
